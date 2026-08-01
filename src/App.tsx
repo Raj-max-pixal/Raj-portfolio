@@ -20,6 +20,7 @@ import { Certificates } from '@/components/sections/Certificates'
 import { GitHubStats } from '@/components/sections/GitHubStats'
 import { Gallery } from '@/components/sections/Gallery'
 import { Contact } from '@/components/sections/Contact'
+import { MaxieAssistant } from '@/components/assistant/MaxieAssistant'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -61,6 +62,7 @@ function App() {
             <Contact />
           </main>
           <Footer />
+          <MaxieAssistant />
         </>
       )}
     </>

@@ -19,17 +19,18 @@ export function About() {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="reveal-left">
-            <GlassCard glow className="relative overflow-hidden">
-              <div className="aspect-square max-w-md mx-auto relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 to-secondary/20 rounded-2xl" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center text-5xl md:text-6xl font-display font-bold mb-4">
-                      RS
-                    </div>
-                    <h3 className="font-display text-2xl font-bold">{owner.fullName}</h3>
-                    <p className="text-secondary mt-1">{owner.role}</p>
-                  </div>
+            <GlassCard glow className="relative overflow-hidden p-0">
+              <div className="aspect-[4/5] max-w-md mx-auto relative">
+                <img
+                  src="/profile-about.png"
+                  alt={owner.fullName}
+                  className="w-full h-full object-cover object-top rounded-2xl"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-accent/10 rounded-2xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="font-display text-2xl font-bold">{owner.fullName}</h3>
+                  <p className="text-secondary mt-1">{owner.role}</p>
                 </div>
               </div>
             </GlassCard>

@@ -69,6 +69,41 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-secondary;
   }
 
+  .text-gradient-animated {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      120deg,
+      #ffffff 0%,
+      #c4b5fd 25%,
+      #8b5cf6 45%,
+      #00e5ff 65%,
+      #ffffff 85%
+    );
+    background-size: 200% auto;
+    animation: gradientShift 8s ease-in-out infinite;
+  }
+
+  .neon-glow {
+    @apply relative overflow-hidden;
+    box-shadow:
+      0 0 20px rgba(124, 58, 237, 0.35),
+      0 0 40px rgba(124, 58, 237, 0.15);
+  }
+
+  .neon-glow:hover {
+    box-shadow:
+      0 0 25px rgba(124, 58, 237, 0.55),
+      0 0 50px rgba(0, 229, 255, 0.25),
+      0 0 80px rgba(124, 58, 237, 0.15);
+  }
+
+  .neon-glow-outline:hover {
+    box-shadow:
+      0 0 20px rgba(0, 229, 255, 0.2),
+      inset 0 0 20px rgba(124, 58, 237, 0.08);
+    @apply border-secondary/40;
+  }
+
   .glow-border {
     position: relative;
   }
@@ -85,6 +120,16 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 

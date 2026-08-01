@@ -10,10 +10,12 @@ import {
   SiDocker,
   SiGit,
   SiTailwindcss,
-  SiOpenai,
+  SiAnthropic,
+  SiGooglegemini,
   SiFastapi,
   SiElectron,
 } from 'react-icons/si'
+import { TbBrandOpenai } from 'react-icons/tb'
 import { techStack } from '@/data/skills'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 
@@ -29,9 +31,9 @@ const iconComponents: Record<string, React.ComponentType<{ className?: string }>
   docker: SiDocker,
   git: SiGit,
   tailwind: SiTailwindcss,
-  openai: SiOpenai,
-  claude: SiOpenai,
-  gemini: SiGooglecloud,
+  openai: TbBrandOpenai,
+  claude: SiAnthropic,
+  gemini: SiGooglegemini,
   fastapi: SiFastapi,
   electron: SiElectron,
 }

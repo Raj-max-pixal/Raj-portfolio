@@ -7,6 +7,8 @@ export const owner = {
   email: 'rajasaranyaraj20@gmail.com',
   github: 'https://github.com/Raj-max-pixal',
   linkedin: 'https://linkedin.com/in/raja-saranya-ba9545342',
+  heroDescription:
+    'I build fast, scalable AI-powered web apps using React, Node.js, Python, and modern AI tooling.',
   tagline: [
     'AI Full Stack Developer',
     'Founder of Multimax',

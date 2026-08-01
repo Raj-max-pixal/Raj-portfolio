@@ -1,108 +1,148 @@
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { FiArrowDown, FiDownload, FiMail } from 'react-icons/fi'
+import { FiMail } from 'react-icons/fi'
 import { owner } from '@/data/owner'
 import { useTypingEffect } from '@/hooks/useTypingEffect'
-import { useMouseParallax } from '@/hooks/useMouseParallax'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { Button } from '@/components/ui/Button'
+import { AuroraBackground } from '@/components/effects/AuroraBackground'
 import { AnimatedBlobs } from '@/components/effects/AnimatedBlobs'
 import { Particles } from '@/components/effects/Particles'
+import { HeroSpotlight } from '@/components/effects/HeroSpotlight'
+import { ScrollIndicator } from '@/components/effects/ScrollIndicator'
+import { gsap } from '@/lib/gsap'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.14, delayChildren: 2.6 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 36, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
+  },
+}
 
 export function Hero() {
   const typedText = useTypingEffect(owner.tagline, 70, 35, 2500)
-  const parallax = useMouseParallax(0.015)
+  const heroRef = useRef<HTMLElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = heroRef.current
+    if (!el || !imageRef.current) return
+
+    gsap.fromTo(
+      imageRef.current,
+      { scale: 1.08, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 1.6, delay: 2.7, ease: 'power3.out' },
+    )
+
+    gsap.to(imageRef.current.querySelector('.hero-image-inner'), {
+      scale: 1.06,
+      duration: 12,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      delay: 4,
+    })
+  }, [])
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-hero-gradient" />
+    <section ref={heroRef} id="hero" className="relative min-h-screen overflow-hidden">
+      <div className="absolute inset-0 bg-bg" />
+      <div className="absolute inset-0 bg-hero-cinematic" />
+      <AuroraBackground />
       <AnimatedBlobs />
-      <Particles count={40} />
+      <Particles count={45} />
+      <HeroSpotlight />
 
-      <div
-        className="relative z-10 text-center px-6 max-w-5xl mx-auto"
-        style={{ transform: `translate(${parallax.x}px, ${parallax.y}px)` }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2.8 }}
-        >
-          <p className="text-secondary text-sm md:text-base font-medium tracking-[0.4em] uppercase mb-6">
-            Hello, I&apos;m
-          </p>
-        </motion.div>
+      <div className="relative z-10 min-h-screen grid lg:grid-cols-2 items-center">
+        {/* Left — content */}
+        <div className="flex items-center px-6 md:px-12 lg:px-16 xl:px-24 py-32 lg:py-0">
+          <motion.div
+            className="max-w-xl"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.p
+              variants={itemVariants}
+              className="text-white/60 text-base md:text-lg mb-3"
+            >
+              Hi, I&apos;m a
+            </motion.p>
 
-        <motion.h1
-          className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-6"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 3 }}
-        >
-          <span className="text-gradient">{owner.displayName}</span>
-        </motion.h1>
+            <motion.h1
+              variants={itemVariants}
+              className="font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.05] font-bold tracking-tight mb-6 min-h-[1.2em]"
+            >
+              <span className="text-white">{typedText}</span>
+              <span className="inline-block w-[3px] h-[0.85em] bg-secondary ml-1 animate-pulse align-middle" />
+            </motion.h1>
 
-        <motion.div
-          className="h-8 md:h-10 mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3.3 }}
-        >
-          <p className="text-xl md:text-2xl lg:text-3xl text-white/80 font-light">
-            {typedText}
-            <span className="inline-block w-[3px] h-6 md:h-8 bg-secondary ml-1 animate-pulse" />
-          </p>
-        </motion.div>
+            <motion.p
+              variants={itemVariants}
+              className="text-white/55 text-sm md:text-base leading-relaxed mb-10 max-w-md"
+            >
+              {owner.heroDescription}
+            </motion.p>
 
-        <motion.p
-          className="text-muted text-base md:text-lg max-w-2xl mx-auto mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.5 }}
-        >
-          {owner.title} · {owner.location}
-        </motion.p>
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row items-start gap-4"
+            >
+              <MagneticButton href="#projects">
+                <Button variant="primary" size="lg" className="neon-glow min-w-[160px]">
+                  View My Work
+                </Button>
+              </MagneticButton>
+              <MagneticButton href="#contact">
+                <Button variant="outline" size="lg" className="neon-glow-outline min-w-[160px]">
+                  <FiMail className="w-5 h-5" />
+                  Contact Me
+                </Button>
+              </MagneticButton>
+            </motion.div>
+          </motion.div>
+        </div>
 
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.7 }}
+        {/* Right — cinematic hero image (video-style) */}
+        <div
+          ref={imageRef}
+          className="relative h-[50vh] lg:h-screen lg:absolute lg:right-0 lg:top-0 lg:w-[52%] xl:w-[48%] opacity-0"
         >
-          <MagneticButton href="#projects">
-            <Button variant="primary" size="lg">
-              View Portfolio
-            </Button>
-          </MagneticButton>
-          <MagneticButton href="#contact">
-            <Button variant="outline" size="lg">
-              <FiMail className="w-5 h-5" />
-              Contact Me
-            </Button>
-          </MagneticButton>
-          <MagneticButton href="/resume.pdf">
-            <Button variant="ghost" size="lg">
-              <FiDownload className="w-5 h-5" />
-              Resume
-            </Button>
-          </MagneticButton>
-        </motion.div>
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="hero-image-inner absolute inset-0 origin-center">
+              <img
+                src="/hero-cinematic.png"
+                alt={owner.fullName}
+                className="w-full h-full object-cover object-top lg:object-[center_15%]"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+
+            {/* Blend edges into site background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/70 to-transparent lg:via-bg/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/20 lg:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-bg/10 hidden lg:block" />
+
+            {/* Cinematic color grade overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(124,58,237,0.12),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,rgba(0,229,255,0.08),transparent_50%)] mix-blend-screen" />
+          </div>
+        </div>
       </div>
 
-      <motion.a
-        href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted hover:text-white transition-colors"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 4 }}
-      >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-          <FiArrowDown className="w-5 h-5" />
-        </motion.div>
-      </motion.a>
+      <ScrollIndicator />
     </section>
   )
 }
