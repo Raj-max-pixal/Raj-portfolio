@@ -35,7 +35,7 @@ git init
 git add .
 git commit -m "Premium portfolio for Rajasaranya"
 git branch -M main
-git remote add origin https://github.com/Raj-max-pixal/portfolio.git
+git remote add origin https://github.com/Raj-max-pixal/Raj-portfolio.git
 git push -u origin main
 ```
 
